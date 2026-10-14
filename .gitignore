@@ -1,0 +1,5 @@
+# خروجی خام کانال و فایل‌های پست‌به‌پست در مخزن نمی‌آیند
+data/
+*.raw.csv
+analysis/output/posts_classified.csv
+__pycache__/

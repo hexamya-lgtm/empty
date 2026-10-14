@@ -1,0 +1,555 @@
+<title>نقشه اتوماسیون محتوای هکس</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;700&display=swap">
+<style>
+/* Layout: one RTL reading column (~44rem) for prose; charts, table and diagrams widen to ~66rem. */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #14171c;
+  --ink-2: #48505b;
+  --ink-3: #6f7782;
+  --rule: #e0e3e8;
+  --accent: #1d5fb8;
+  --accent-soft: #e7eefa;
+  --s-content: #2a78d6;
+  --s-live: #eb6834;
+  --o1: #104281; --o1-ink: #ffffff;
+  --o2: #256abf; --o2-ink: #ffffff;
+  --o3: #5598e7; --o3-ink: #0b1a2e;
+  --o4: #86b6ef; --o4-ink: #0b1a2e;
+  --tg-bg: #e9eef4;
+  --tg-bubble: #ffffff;
+  --tg-btn: #f1f5fa;
+  --font-display: "Lalezar", "Vazirmatn", Tahoma, sans-serif;
+  --font-body: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.1875rem;
+  --step-2: 1.5rem;
+  --step-3: 2.125rem;
+  --step-4: 2.875rem;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121418; --surface: #1a1d22; --ink: #eceef1; --ink-2: #b9bfc8; --ink-3: #8d949e; --rule: #2c3038;
+    --accent: #7fb0f0; --accent-soft: #1d2a3d;
+    --s-content: #3987e5; --s-live: #d95926;
+    --o1: #86b6ef; --o1-ink: #0b1a2e;
+    --o2: #5598e7; --o2-ink: #0b1a2e;
+    --o3: #2a78d6; --o3-ink: #ffffff;
+    --o4: #184f95; --o4-ink: #ffffff;
+    --tg-bg: #0f1a24; --tg-bubble: #1c2733; --tg-btn: #22303e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121418; --surface: #1a1d22; --ink: #eceef1; --ink-2: #b9bfc8; --ink-3: #8d949e; --rule: #2c3038;
+  --accent: #7fb0f0; --accent-soft: #1d2a3d;
+  --s-content: #3987e5; --s-live: #d95926;
+  --o1: #86b6ef; --o1-ink: #0b1a2e;
+  --o2: #5598e7; --o2-ink: #0b1a2e;
+  --o3: #2a78d6; --o3-ink: #ffffff;
+  --o4: #184f95; --o4-ink: #ffffff;
+  --tg-bg: #0f1a24; --tg-bubble: #1c2733; --tg-btn: #22303e;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.85; }
+.page { direction: rtl; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 2.5rem 4rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: 3.25rem; }
+.page > * { width: 100%; max-width: 66rem; margin-inline: auto; min-width: 0; }
+.prose { max-width: 44rem; }
+h1, h2 { font-family: var(--font-display); font-weight: 400; text-wrap: balance; line-height: 1.35; margin: 0; letter-spacing: 0; }
+h1 { font-size: var(--step-4); }
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-1); margin: 0; font-weight: 700; text-wrap: balance; }
+p { margin: 0; }
+.stack { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+.eyebrow { font-size: var(--step--1); color: var(--accent); font-weight: 700; }
+.lede { font-size: var(--step-1); color: var(--ink-2); max-width: 44rem; }
+.meta { font-size: var(--step--1); color: var(--ink-3); }
+.num { font-variant-numeric: tabular-nums; }
+.muted { color: var(--ink-3); }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* header */
+header.top { display: grid; gap: 1rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
+
+/* findings */
+.findings { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.5rem 2rem; }
+.finding { display: grid; gap: .25rem; align-content: start; }
+.finding .big { font-family: var(--font-display); font-size: var(--step-3); line-height: 1.2; color: var(--ink); }
+.finding p { color: var(--ink-2); font-size: .9375rem; }
+
+/* section heads */
+.sec-head { display: grid; gap: .5rem; max-width: 44rem; }
+
+/* chart */
+.chart-card { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1.25rem; display: grid; gap: 1rem; }
+.legend { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; font-size: var(--step--1); color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: .4rem; }
+.sw { width: .75rem; height: .75rem; border-radius: 3px; display: inline-block; }
+.chart { position: relative; direction: ltr; display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: .5rem; }
+.yaxis { position: relative; height: 15rem; font-size: .75rem; color: var(--ink-3); }
+.yaxis span { position: absolute; right: 0; transform: translateY(50%); }
+.plot { position: relative; height: 15rem; border-bottom: 1px solid var(--ink-3); }
+.grid-line { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--rule); }
+.cols { position: absolute; inset: 0; display: flex; align-items: flex-end; gap: 4px; }
+.col { flex: 1 1 0; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; cursor: default; min-width: 0; position: relative; }
+.col .seg { width: 100%; }
+.col .seg.top { border-radius: 4px 4px 0 0; }
+.col:hover .seg, .col:focus-visible .seg { filter: brightness(1.12); }
+.col.partial .seg { opacity: .55; }
+.xaxis { grid-column: 2; display: flex; gap: 4px; font-size: .75rem; color: var(--ink-3); }
+.xaxis span { flex: 1 1 0; text-align: center; white-space: nowrap; overflow: visible; min-width: 0; }
+.marker { position: absolute; top: 0; bottom: 0; border-left: 1.5px solid var(--ink-2); pointer-events: none; }
+.marker b { direction: rtl; unicode-bidi: isolate; position: absolute; top: -.25rem; left: 4px; font-size: .75rem; font-weight: 500; color: var(--ink-2); white-space: nowrap; background: var(--surface); padding: 0 .25rem; }
+.tip { position: absolute; z-index: 2; pointer-events: none; background: var(--ink); color: var(--bg); border-radius: 8px; padding: .5rem .75rem; font-size: var(--step--1); line-height: 1.6; direction: rtl; white-space: nowrap; transform: translate(-50%, -100%); }
+.chart-note { font-size: var(--step--1); color: var(--ink-3); }
+
+/* split bar */
+.split { display: flex; gap: 2px; height: 3rem; border-radius: 6px; overflow: hidden; direction: rtl; }
+.split div { display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .9375rem; min-width: 0; }
+.split-legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1rem 1.5rem; }
+.split-legend div { display: grid; grid-template-columns: auto 1fr; gap: .15rem .6rem; align-items: start; }
+.split-legend .sw { margin-top: .5rem; }
+.split-legend strong { font-size: .9375rem; }
+.split-legend p { grid-column: 2; font-size: var(--step--1); color: var(--ink-2); }
+
+/* table */
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); }
+table { border-collapse: collapse; width: 100%; min-width: 46rem; font-size: .9375rem; }
+th, td { text-align: right; padding: .7rem .9rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-size: var(--step--1); color: var(--ink-3); font-weight: 500; background: var(--surface); }
+tbody tr:last-child td { border-bottom: 0; }
+td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bar-cell { display: flex; align-items: center; gap: .5rem; min-width: 8rem; }
+.bar-cell i { display: block; height: .55rem; border-radius: 0 4px 4px 0; background: var(--s-content); }
+.chip { display: inline-block; padding: .05rem .55rem; border-radius: 999px; font-size: .78rem; font-weight: 700; white-space: nowrap; }
+.lv-full { background: var(--o1); color: var(--o1-ink); }
+.lv-high { background: var(--o2); color: var(--o2-ink); }
+.lv-mid  { background: var(--o3); color: var(--o3-ink); }
+.lv-low  { background: var(--o4); color: var(--o4-ink); }
+td.how { color: var(--ink-2); font-size: .875rem; min-width: 16rem; }
+td.cat { min-width: 10rem; }
+td.cat strong { display: block; font-weight: 500; }
+td.cat small { color: var(--ink-3); font-size: .78rem; }
+
+/* insights list */
+.cols-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr)); gap: 2rem 3rem; }
+.note { display: grid; gap: .5rem; align-content: start; }
+.note p { color: var(--ink-2); }
+blockquote.post { margin: 0; padding: .6rem .9rem; border-inline-start: 3px solid var(--rule); background: var(--surface); border-radius: 6px 0 0 6px; font-size: .9rem; color: var(--ink); display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; }
+blockquote.post .cnt { color: var(--ink-3); font-size: var(--step--1); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* pipeline */
+.pipeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1rem; }
+.stage { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1rem 1.1rem; display: grid; gap: .4rem; align-content: start; }
+.stage .k { font-family: var(--font-display); font-size: var(--step-2); color: var(--accent); line-height: 1; }
+.stage p { color: var(--ink-2); font-size: .9rem; }
+.stage.human { border-color: var(--accent); background: var(--accent-soft); }
+
+/* telegram mock */
+.mock-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 2rem; align-items: start; }
+.tg { background: var(--tg-bg); border-radius: 14px; padding: 1rem; display: grid; gap: .6rem; }
+.tg-head { font-size: var(--step--1); color: var(--ink-3); text-align: center; }
+.bubble { background: var(--tg-bubble); border-radius: 12px 12px 12px 4px; padding: .75rem .9rem; display: grid; gap: .6rem; font-size: .9rem; line-height: 1.75; }
+.bubble .meta-line { font-size: .78rem; color: var(--ink-3); display: grid; gap: .1rem; }
+.bubble .draft { white-space: pre-line; border-top: 1px solid var(--rule); padding-top: .6rem; }
+.btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.btns span { background: var(--tg-btn); border-radius: 8px; text-align: center; padding: .4rem .2rem; font-size: .8rem; font-weight: 500; color: var(--accent); }
+.btns span.wide { grid-column: span 3; }
+.mock-caption { font-size: var(--step--1); color: var(--ink-3); }
+
+/* sources */
+.sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.25rem 2rem; }
+.src { display: grid; gap: .35rem; align-content: start; }
+.src ul { margin: 0; padding-inline-start: 1.1rem; color: var(--ink-2); font-size: .9rem; }
+.src li { margin-block: .15rem; }
+.src .ltr { direction: ltr; unicode-bidi: isolate; }
+
+/* phases */
+.phases { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+.phase { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; padding-block: 1.1rem; border-bottom: 1px solid var(--rule); }
+.phase .k { font-family: var(--font-display); font-size: var(--step-1); color: var(--accent); }
+.phase p { color: var(--ink-2); font-size: .9375rem; }
+@media (max-width: 34rem) { .phase { grid-template-columns: 1fr; gap: .25rem; } }
+
+/* cost */
+.cost { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.25rem 2rem; }
+.cost .item { display: grid; gap: .3rem; }
+.cost .item .big { font-family: var(--font-display); font-size: var(--step-2); }
+.cost .item p { color: var(--ink-2); font-size: .9rem; }
+
+ol.qs { margin: 0; padding-inline-start: 1.3rem; display: grid; gap: .6rem; color: var(--ink); }
+ol.qs li span { color: var(--ink-2); font-size: .9375rem; display: block; }
+footer.method { font-size: var(--step--1); color: var(--ink-3); border-top: 1px solid var(--rule); padding-top: 1.25rem; display: grid; gap: .4rem; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<main class="page" lang="fa" dir="rtl">
+
+  <header class="top">
+    <span class="eyebrow">کانال Hex Fantasy Football · ‎@HexFPL</span>
+    <h1>نقشه اتوماسیون محتوای هکس</h1>
+    <p class="lede">بررسی ۶٬۷۸۰ پستی که حسام از مرداد ۱۴۰۴ تا مهر ۱۴۰۵ در کانال گذاشته است: چه نوع پست‌هایی است، کدام‌ها را می‌شود به یک ایجنت هوش مصنوعی سپرد، و یک طرح دومرحله‌ای که پیش‌نویس‌ها اول برای خودتان بیاید و شما انتخاب کنید چه چیزی در کانال برود.</p>
+    <p class="meta num">داده: خروجی کامل کانال، ۲۷٬۱۳۴ پست از ۶ مرداد ۱۴۰۴ تا ۲۲ مهر ۱۴۰۵ · «سه ماه اخیر» یعنی ۲۴ تیر تا ۲۲ مهر ۱۴۰۵ (۱٬۸۴۸ پست)</p>
+  </header>
+
+  <section class="findings" aria-label="یافته‌های اصلی">
+    <div class="finding">
+      <span class="big num">۲۰ پست در روز</span>
+      <p>میانگین سه ماه اخیر شما. شلوغ‌ترین روز ۸۱ پست داشت. این حجم با دست، پایدار نیست.</p>
+    </div>
+    <div class="finding">
+      <span class="big num">۵۹٪</span>
+      <p>از پست‌های اخیر شما را ایجنت می‌تواند کامل یا تا حد «یک کلیک برای تأیید» آماده کند؛ یعنی حدود ۱۲ پست در روز.</p>
+    </div>
+    <div class="finding">
+      <span class="big num">۶۲٪ ← ۱۴٪</span>
+      <p>سهم پست‌های زنده‌ی شما، از اکتبر و نوامبر ۲۰۲۵ تا سه ماه اخیر. از وقتی Hex Agent رویدادهای بازی را گرفت، کار شما به خبر و محتوا منتقل شد.</p>
+    </div>
+    <div class="finding">
+      <span class="big num">۳۶٪</span>
+      <p>فقط سه دسته‌ی کنفرانس مربی‌ها، مصدومیت و ترکیب، و نقل‌وانتقالات. بیشترین حجم را دارند و ساده‌ترین نقطه‌ی شروع‌اند.</p>
+    </div>
+  </section>
+
+  <section class="stack">
+    <div class="sec-head">
+      <span class="eyebrow">آنچه همین الان خودکار است</span>
+      <h2>ربات‌ها نصف کانال را می‌نویسند</h2>
+      <p class="muted">از ۲۷٬۱۳۴ پست کانال، ۱۶٬۷۰۴ پست را ربات‌ها گذاشته‌اند (Hex Agent به تنهایی ۱۴٬۳۸۳). گزارش زنده‌ی گل، کارت، تعویض، سیو و دفکان، ترکیب‌ها، #UPDATE مصدومیت و محرومیت، #تغییرات_قیمت، هشدار ددلاین و #مسابقات_امروز همه کار ربات است. سهم شما ۲۵٪ پست‌هاست و تقریباً همه‌ی محتوای فارسیِ «نوشتنی» کانال.</p>
+    </div>
+    <div class="chart-card">
+      <div class="legend" aria-hidden="true">
+        <span><i class="sw" style="background:var(--s-content)"></i>پست محتوایی (خبر، نقل‌قول، تحلیل، میم…)</span>
+        <span><i class="sw" style="background:var(--s-live)"></i>پست زنده حین بازی (واکنش و رویداد)</span>
+      </div>
+      <div class="chart" id="monthly" role="img" aria-label="تعداد ماهانه پست‌های حسام به تفکیک محتوایی و زنده، اوت ۲۰۲۵ تا اکتبر ۲۰۲۶">
+        <div class="yaxis" id="yaxis"></div>
+        <div class="plot" id="plot"></div>
+        <div class="xaxis" id="xaxis"></div>
+      </div>
+      <p class="chart-note">پست‌های ماهانه‌ی حسام، ماه‌های میلادی. ستون اکتبر ۲۰۲۶ تا ۱۴ اکتبر است و کم‌رنگ نشان داده شده. روی ستون‌ها بروید تا عدد دقیق را ببینید.</p>
+    </div>
+  </section>
+
+  <section class="stack">
+    <div class="sec-head">
+      <span class="eyebrow">چه پست‌هایی می‌گذارید</span>
+      <h2>۱۵ نوع پست و اینکه هر کدام چقدر خودکارشدنی است</h2>
+      <p class="muted">اعداد مربوط به سه ماه اخیر است، چون الگوی کار شما بعد از آمدن Hex Agent عوض شده. ستون واکنش، میانه‌ی تعداد ری‌اکشن هر پست است.</p>
+    </div>
+
+    <div class="chart-card">
+      <h3>پست‌های اخیر شما بر اساس اینکه ایجنت چقدر می‌تواند انجامشان بدهد</h3>
+      <div class="split" id="split" role="img" aria-label="سهم پست‌های اخیر: خودکار کامل ۹ درصد، پیش‌نویس آماده ۵۰ درصد، کمک‌یار ۳۱ درصد، دستی ۱۰ درصد"></div>
+      <div class="split-legend">
+        <div><i class="sw lv-full"></i><strong>خودکار کامل · ۹٪</strong><p>بدون تأیید منتشر شود: Top BPS و DEFCON، EO و آمار کاربران هکس، قیمت و ضرایب. حدود ۲ پست در روز.</p></div>
+        <div><i class="sw lv-high"></i><strong>پیش‌نویس آماده · ۵۰٪</strong><p>ایجنت متن نهایی را می‌نویسد، شما فقط تأیید یا کمی ویرایش می‌کنید. حدود ۱۰ پست در روز.</p></div>
+        <div><i class="sw lv-mid"></i><strong>کمک‌یار · ۳۱٪</strong><p>ایجنت ایده و داده و پیش‌نویس خام می‌دهد، نظر و انتخاب با شماست. حدود ۶ پست در روز.</p></div>
+        <div><i class="sw lv-low"></i><strong>دستی · ۱۰٪</strong><p>شخصیت کانال است: واکنش لحظه‌ای حین بازی، تیم شخصی. حدود ۲ پست در روز.</p></div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>نوع پست</th><th>در هفته</th><th>سهم</th><th>واکنش</th><th>خودکارشدنی</th><th>ایجنت چطور انجامش می‌دهد</th></tr>
+        </thead>
+        <tbody id="cats"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="stack">
+    <div class="sec-head">
+      <span class="eyebrow">از داده‌ی تعامل</span>
+      <h2>مخاطب به چه چیزی واکنش نشان می‌دهد</h2>
+    </div>
+    <div class="cols-2">
+      <div class="note">
+        <h3>سؤال ساده بیشترین ری‌اکشن را می‌گیرد</h3>
+        <p>سه پست پرواکنش شما یک خط سؤال‌اند. ایجنت می‌تواند بعد از هر اتفاق مهم (ددلاین، نتیجه‌ی بزرگ، خبر جنجالی) یک سؤال یا نظرسنجی پیشنهاد بدهد.</p>
+        <blockquote class="post"><span>👍 یا 👎 ؟</span><span class="cnt">۳۰۱ واکنش</span></blockquote>
+        <blockquote class="post"><span>حقش بود؟</span><span class="cnt">۲۳۴ واکنش</span></blockquote>
+        <blockquote class="post"><span>بنظرتون هوش مصنوعی میتونه یه روز رتبه ۱ فانتزی بشه؟</span><span class="cnt">۲۰۲ واکنش</span></blockquote>
+      </div>
+      <div class="note">
+        <h3>راهنماها بیشترین فوروارد را می‌گیرند</h3>
+        <p>پرفورواردترین پست‌ها آموزش و لینک لیگ‌اند. این‌ها «همیشه‌سبز»ند و ایجنت می‌تواند آن‌ها را در زمان درست (شروع فصل، شروع جام، شروع UCL) به‌روز کند و دوباره پیشنهاد بدهد.</p>
+        <blockquote class="post"><span>راهنمای بازی FIFA World Cup Fantasy 2026</span><span class="cnt">۶۹۸ فوروارد</span></blockquote>
+        <blockquote class="post"><span>ثبت تیم فانتزی سی‌ال در بات</span><span class="cnt">۶۳۵ فوروارد</span></blockquote>
+        <blockquote class="post"><span>لیگ فانتزی جام جهانی هکس</span><span class="cnt">۶۲۵ فوروارد</span></blockquote>
+      </div>
+      <div class="note">
+        <h3>خبرها هم واکنش خوبی دارند</h3>
+        <p>در سه ماه اخیر، خبرهای عمومی (میانه ۳۴ واکنش) و کنفرانس مربی‌ها (۲۶) بالاتر از بقیه‌اند. اتفاقاً همین‌ها خودکارشدنی‌ترین دسته‌ها هستند، پس اتوماسیون از جای درستی شروع می‌شود.</p>
+      </div>
+      <div class="note">
+        <h3>سبک شما قابل یادگرفتن است</h3>
+        <p>پست‌های شما قالب ثابتی دارند و ایجنت باید همین را تقلید کند:</p>
+        <ul style="margin:0;padding-inline-start:1.1rem;color:var(--ink-2);font-size:.9rem">
+          <li>سرخط با ایموجی: 🚨 خبر فوری و نقل‌وانتقال، ⚽️ عمومی، 🔴 🔵 ⚪️ رنگ تیم، 🎙 نقل‌قول، 📊 آمار، 🦁 ترجمه‌ی کارشناس‌ها</li>
+          <li>اسم منبع اول جمله: «🚨 اورنشتین: …»؛ نقل‌قول داخل «»</li>
+          <li>خبر کتابی، نظر و کپشن خودمانی («بنظر میرسه…»، «حواستون به نیمکت باشه»)</li>
+          <li>قیمت به شکل 9.1m و اسم بازیکن به فارسی</li>
+          <li>پانویس «✔️ ‎@HexFPL | @HexFPLbot» (۲٬۹۵۳ بار)؛ برای UCL ‏🇪🇺 و برای جام جهانی 🏆</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack">
+    <div class="sec-head">
+      <span class="eyebrow">طرح پیشنهادی</span>
+      <h2>ایجنت دومرحله‌ای: ایجنت پیشنهاد می‌دهد، شما انتخاب می‌کنید</h2>
+      <p class="muted">همان ایده‌ی خودتان. ایجنت هیچ‌وقت مستقیم در کانال نمی‌نویسد، مگر برای دسته‌هایی که بعداً خودتان اجازه بدهید.</p>
+    </div>
+    <div class="pipeline">
+      <div class="stage"><span class="k num">۱</span><h3>پایش منابع</h3><p>هر یکی دو دقیقه اکانت‌های X، فید سایت‌ها، کانال‌های تلگرامی انگلیسی و API رسمی فانتزی خوانده می‌شود. هر آیتم با منبع، زمان، متن، عکس و لینک ذخیره می‌شود.</p></div>
+      <div class="stage"><span class="k num">۲</span><h3>ادغام و حذف تکراری</h3><p>یک خبر را معمولاً رومانو، اورنشتین و اسکای همه می‌زنند. این‌ها یک «ماجرا» می‌شوند و معتبرترین نسخه جلو می‌رود. هر چیزی که قبلاً در کانال رفته کنار گذاشته می‌شود.</p></div>
+      <div class="stage"><span class="k num">۳</span><h3>فیلتر و امتیاز</h3><p>مدل زبانی برای هر ماجرا مشخص می‌کند: دسته، ربط به لیگ برتر و فانتزی، اعتبار منبع، اثر فانتزی (بازیکن پرمالکیت درگیر است؟) و فوریت. زیر آستانه دور ریخته می‌شود.</p></div>
+      <div class="stage"><span class="k num">۴</span><h3>پیش‌نویس به سبک شما</h3><p>برای هر دسته چند پست مشابه گذشته‌ی خودتان نمونه داده می‌شود، به‌علاوه‌ی واژه‌نامه‌ی اسم بازیکن‌ها. خروجی: متن نهایی، پانویس، هشتگ و عکس پیشنهادی.</p></div>
+      <div class="stage human"><span class="k num">۵</span><h3>صف تأیید شما</h3><p>ربات خصوصی پیش‌نویس را با منبع و دلیل اهمیتش می‌فرستد. فوری‌ها همان لحظه، بقیه به‌صورت بسته‌ی چندتایی. با یک دکمه منتشر، ویرایش، زمان‌بندی یا رد می‌کنید.</p></div>
+      <div class="stage"><span class="k num">۶</span><h3>انتشار و یادگیری</h3><p>پست تأییدشده در کانال می‌رود. هر رد و ویرایش ثبت می‌شود تا نمونه‌ها و آستانه‌ها بهتر شوند. دسته‌ای که مدتی بدون ویرایش تأیید شود، می‌تواند مستقیم منتشر شود.</p></div>
+    </div>
+
+    <div class="mock-wrap">
+      <div class="tg" aria-label="نمونه‌ی پیام ربات تأیید">
+        <div class="tg-head">ربات خصوصی پیش‌نویس‌ها · فقط شما می‌بینید</div>
+        <div class="bubble">
+          <div class="meta-line">
+            <span>📝 پیش‌نویس · کنفرانس خبری · فوریت: بالا</span>
+            <span>منبع: کنفرانس پیش از بازی آرسنال</span>
+            <span>چرا مهم است: ساکا و تیمبر در تیم بخش بزرگی از مربی‌ها هستند</span>
+          </div>
+          <div class="draft">🔴 آرتتا درباره‌ی وضعیت تیم:
+
+«بوکایو امروز کامل تمرین کرد و آماده است. یوریین هنوز کمی درد دارد؛ فردا درباره‌اش تصمیم می‌گیریم.»
+
+
+✔️ @HexFPL | @HexFPLbot</div>
+        </div>
+        <div class="btns">
+          <span>✅ انتشار</span><span>✏️ ویرایش</span><span>⏰ زمان‌بندی</span>
+          <span>🔁 کوتاه‌تر</span><span>😄 خودمانی‌تر</span><span>❌ رد</span>
+          <span class="wide">🔗 دیدن منبع اصلی</span>
+        </div>
+      </div>
+      <div class="stack">
+        <h3>شما با هر پیش‌نویس چه می‌کنید</h3>
+        <p class="muted">«انتشار» همان متن را در کانال می‌گذارد. «ویرایش» متن را برایتان می‌فرستد تا اصلاحش کنید و نسخه‌ی شما منتشر شود. «کوتاه‌تر» و «خودمانی‌تر» همان خبر را دوباره می‌نویسد. «رد» با یک دلیل کوتاه (تکراری، بی‌اهمیت، منبع ضعیف) ثبت می‌شود تا ایجنت دفعه‌ی بعد آن نوع را نفرستد.</p>
+        <p class="muted">برای چیزهای غیرفوری مثل آمار، میم و ترند، به جای پیام‌های تکی یک بسته‌ی روزانه می‌آید: «۸ پیشنهاد امروز» و شما چندتایش را تیک می‌زنید.</p>
+        <p class="mock-caption">پیام کنار، یک نمونه‌ی ساختگی است که فقط شکل کار را نشان می‌دهد و خبر واقعی نیست.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack">
+    <div class="sec-head">
+      <span class="eyebrow">منابع</span>
+      <h2>ایجنت به چه چیزهایی وصل می‌شود</h2>
+      <p class="muted">این فهرست از روی اسم‌هایی درآمده که خودتان در پست‌هایتان بیشتر از همه نقل کرده‌اید. فهرست اکانت‌ها و منابعی که دارید را بفرستید تا کامل شود.</p>
+    </div>
+    <div class="sources">
+      <div class="src">
+        <h3>خبرنگارها (X)</h3>
+        <ul>
+          <li>رده‌ی ۱: دیوید اورنشتین (در ۴۵ پست شما)، فابریزیو رومانو (۳۷)، بن جیکوبز (۱۸)</li>
+          <li>رده‌ی ۲: مت لاو، الکس کروک، سامی مقبل</li>
+          <li>رسانه‌ها: اسکای اسپورتس، BBC، گاردین، تلگراف، تایمز، اتلتیک، لکیپ، بیلد</li>
+        </ul>
+      </div>
+      <div class="src">
+        <h3>کنفرانس و تیم‌نیوز</h3>
+        <ul>
+          <li>اکانت رسمی ۲۰ باشگاه لیگ برتر (کنفرانس‌ها، عکس تمرین)</li>
+          <li>اکانت‌های تخصصی مصدومیت لیگ برتر</li>
+          <li>مربی‌هایی که بیشتر نقل کرده‌اید: مارسکا، اسلات، آرتتا، گلاسنر، آموریم، فرانک، دی‌زربی، ایرائولا</li>
+        </ul>
+      </div>
+      <div class="src">
+        <h3>آمار و فانتزی</h3>
+        <ul>
+          <li class="ltr">Fantasy Premier League API (bootstrap-static, fixtures, event/live)</li>
+          <li>اوپتا (OptaJoe و OptaAnalyst)</li>
+          <li>اسکات فانتزی (FFScout) و صفحه‌ی Scout سایت رسمی لیگ برتر</li>
+          <li>اکانت‌های فانتزی که نقل کرده‌اید: FPL Harry، FPL Architect، BigManBakar</li>
+        </ul>
+      </div>
+      <div class="src">
+        <h3>ترند و میم</h3>
+        <ul>
+          <li>ردیت r/FantasyPL و r/soccer (پست‌های پرامتیاز ساعت اخیر)</li>
+          <li>اکانت‌های پرمخاطب فوتبالی در X</li>
+          <li>اینجا ایجنت فقط پیشنهاد می‌دهد؛ انتخاب میم کاملاً با شماست</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack">
+    <div class="sec-head">
+      <span class="eyebrow">هزینه</span>
+      <h2>برآورد تقریبی ماهانه</h2>
+      <p class="muted">با فرض حدود ۱٬۰۰۰ آیتم ورودی و ۵۰ پیش‌نویس در روز. اعداد ترتیب بزرگی‌اند، نه قیمت قطعی.</p>
+    </div>
+    <div class="cost">
+      <div class="item">
+        <span class="big num">≈ ۱۵۰ دلار</span>
+        <h3>خواندن توییت‌ها از API رسمی X</h3>
+        <p>X الان به ازای هر توییتِ خوانده‌شده پول می‌گیرد، حدود ۰٫۰۰۵ دلار. ۴۰ اکانت با روزی ۲۵ توییت می‌شود حدود ۵ دلار در روز. قیمت دقیق را در کنسول توسعه‌دهنده‌ی X چک کنید. جایگزین ارزان‌تر: کانال‌های تلگرامی انگلیسی که همین اکانت‌ها را بازنشر می‌کنند، و فید RSS سایت‌ها.</p>
+      </div>
+      <div class="item">
+        <span class="big num">≈ ۷۰ تا ۲۱۰ دلار</span>
+        <h3>مدل زبانی</h3>
+        <p>اگر همه‌چیز با Claude Opus 5.5 باشد (۴ دلار ورودی و ۲۰ دلار خروجی برای هر میلیون توکن) حدود ۲۱۰ دلار. فیلتر اولیه بیشترین حجم را دارد؛ اگر آن مرحله با Claude Haiku 5.5 (۰٫۱۰ و ۰٫۵۰ دلار) انجام شود، کل به حدود ۷۰ دلار می‌رسد. انتخاب مدل با شماست و طرح به مدل خاصی وابسته نیست.</p>
+      </div>
+      <div class="item">
+        <span class="big num">≈ ۵ تا ۱۰ دلار</span>
+        <h3>سرور و دیتابیس</h3>
+        <p>یک سرور کوچک کافی است، یا کنار همان سروری که Hex Agent و ‎@HexFPLbot رویش هستند. دیتابیس برای آیتم‌ها، ماجراها، پیش‌نویس‌ها و تصمیم‌های شما.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack">
+    <div class="sec-head">
+      <span class="eyebrow">ترتیب ساخت</span>
+      <h2>سه فاز، از پرحجم‌ترین به ظریف‌ترین</h2>
+    </div>
+    <div class="phases">
+      <div class="phase"><span class="k">فاز ۱</span><div><h3>خبرها: کنفرانس، مصدومیت و ترکیب، نقل‌وانتقالات، خبر عمومی</h3><p>۳۹٪ پست‌های اخیر، حدود ۸ پست در روز. منابع مشخص، قالب ثابت و ترجمه‌ی دقیق. ربات تأیید خصوصی و انتشار از همین فاز راه می‌افتد.</p></div></div>
+      <div class="phase"><span class="k">فاز ۲</span><div><h3>داده و تعامل: آمار و رکورد، داده‌های FPL، نتایج، نظرسنجی پیشنهادی</h3><p>Top BPS و DEFCON و EO مستقیم با ربات منتشر می‌شوند و از دست شما خارج می‌شوند. ایجنت بعد از اتفاق‌های مهم سؤال و نظرسنجی پیشنهاد می‌دهد.</p></div></div>
+      <div class="phase"><span class="k">فاز ۳</span><div><h3>کمک‌یار: تحلیل فانتزی، ترند و میم، یادگیری از ویرایش‌ها</h3><p>پیش‌نویس تحلیل با داده‌ی فیکسچر، xG و مالکیت که شما نظرتان را به آن اضافه می‌کنید. پیشنهاد ترندها با کپشن. دسته‌هایی که بی‌ویرایش تأیید می‌شوند، اجازه‌ی انتشار مستقیم می‌گیرند.</p></div></div>
+    </div>
+  </section>
+
+  <section class="stack prose">
+    <div class="sec-head">
+      <span class="eyebrow">قبل از ساخت</span>
+      <h2>چند سؤال از شما</h2>
+    </div>
+    <ol class="qs">
+      <li>فهرست اکانت‌های X و منابعی که دارید<span>اسم اکانت‌ها، کانال‌های تلگرامی و سایت‌هایی که الان دنبال می‌کنید، و اینکه کدام‌ها برایتان معتبرترند.</span></li>
+      <li>پست‌ها با امضای Hesam بروند یا امضای ربات؟<span>برای امضای خودتان، انتشار باید از حساب خودتان انجام شود؛ با امضای ربات ساده‌تر است.</span></li>
+      <li>صف تأیید فقط برای شما باشد یا ادمین‌های دیگر هم؟<span>عرفان، مهدی و امیر هم پست می‌گذارند؛ می‌شود یک گروه خصوصی ساخت که هر کس زودتر رسید تأیید کند.</span></li>
+      <li>ربات‌های فعلی با چه زبانی و روی چه سروری هستند؟<span>بهتر است ایجنت کنار Hex Agent بنشیند و از همان داده‌ی FPL و همان اتصال کانال استفاده کند.</span></li>
+      <li>بودجه‌ی ماهانه برای X و مدل زبانی چقدر است؟<span>این تعیین می‌کند چند اکانت پایش شود و فیلتر اولیه با کدام مدل انجام شود.</span></li>
+    </ol>
+  </section>
+
+  <footer class="method">
+    <p>روش: پست‌های با امضای «Hesam» و «Hesäm» با قواعد متنی (کلیدواژه و الگو) دسته‌بندی شدند. در نمونه‌گیری دستی حدود ۸ از ۱۰ پست درست برچسب خورده‌اند؛ پس اعداد برای تصمیم‌گیری کلی‌اند، نه حسابداری دقیق. دسته‌ی «عکس و ویدیو با کپشن کوتاه» ترکیبی از میم و خبر تصویری کوتاه است.</p>
+    <p>اسکریپت دسته‌بندی و خلاصه‌ی اعداد در مخزن پروژه، پوشه‌ی analysis/ است.</p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var FA = '۰۱۲۳۴۵۶۷۸۹';
+  function fa(n, dec) {
+    var s = (dec != null ? Number(n).toFixed(dec) : String(n));
+    var parts = s.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '٬');
+    return parts.join('٫').replace(/\d/g, function (d) { return FA[d]; });
+  }
+
+  // Monthly posts by Hesam (Tehran time), from analysis/output/monthly.csv
+  var months = [
+    ['اوت ۲۰۲۵', 49, 79], ['سپتامبر ۲۰۲۵', 298, 234], ['اکتبر ۲۰۲۵', 493, 669], ['نوامبر ۲۰۲۵', 438, 871],
+    ['دسامبر ۲۰۲۵', 449, 484], ['ژانویه ۲۰۲۶', 92, 29], ['فوریه ۲۰۲۶', 80, 12], ['مارس ۲۰۲۶', 44, 25],
+    ['آوریل ۲۰۲۶', 44, 31], ['مه ۲۰۲۶', 56, 52], ['ژوئن ۲۰۲۶', 187, 95], ['ژوئیه ۲۰۲۶', 267, 50],
+    ['اوت ۲۰۲۶', 548, 129], ['سپتامبر ۲۰۲۶', 641, 92], ['اکتبر ۲۰۲۶', 221, 21]
+  ];
+  var xLabels = { 0: 'اوت ۲۵', 3: 'نوامبر', 6: 'فوریه ۲۶', 9: 'مه', 12: 'اوت ۲۶', 14: 'اکتبر' };
+  var MAX = 1400, TICKS = [0, 500, 1000];
+  var plot = document.getElementById('plot'), yaxis = document.getElementById('yaxis'), xaxis = document.getElementById('xaxis');
+  TICKS.forEach(function (t) {
+    var g = document.createElement('div'); g.className = 'grid-line'; g.style.bottom = (t / MAX * 100) + '%';
+    if (t > 0) plot.appendChild(g);
+    var l = document.createElement('span'); l.textContent = fa(t); l.style.bottom = (t / MAX * 100) + '%'; yaxis.appendChild(l);
+  });
+  var cols = document.createElement('div'); cols.className = 'cols'; plot.appendChild(cols);
+  var tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; document.getElementById('monthly').appendChild(tip);
+  months.forEach(function (m, i) {
+    var c = document.createElement('div'); c.className = 'col' + (i === months.length - 1 ? ' partial' : '');
+    c.tabIndex = 0;
+    var total = m[1] + m[2];
+    c.setAttribute('aria-label', m[0] + ': ' + fa(m[1]) + ' محتوایی، ' + fa(m[2]) + ' زنده');
+    var live = document.createElement('div'); live.className = 'seg top'; live.style.background = 'var(--s-live)';
+    live.style.height = 'calc(' + (m[2] / MAX * 100) + '% - 1px)';
+    var content = document.createElement('div'); content.className = 'seg'; content.style.background = 'var(--s-content)';
+    content.style.height = 'calc(' + (m[1] / MAX * 100) + '% - 1px)';
+    if (m[2] < 8) { live.style.height = (m[2] / MAX * 100) + '%'; }
+    c.appendChild(live); c.appendChild(content);
+    function show() {
+      tip.hidden = false;
+      tip.innerHTML = '<strong>' + m[0] + (i === months.length - 1 ? ' (تا ۱۴ اکتبر)' : '') + '</strong><br>محتوایی: ' + fa(m[1]) + '<br>زنده: ' + fa(m[2]) + '<br>سهم زنده: ' + fa(Math.round(m[2] / total * 100)) + '٪';
+      var host = document.getElementById('monthly').getBoundingClientRect();
+      var r = c.getBoundingClientRect();
+      var x = r.left + r.width / 2 - host.left;
+      x = Math.max(80, Math.min(host.width - 80, x));
+      tip.style.left = x + 'px';
+      tip.style.top = (r.bottom - (total / MAX) * r.height - host.top - 8) + 'px';
+    }
+    function hide() { tip.hidden = true; }
+    c.addEventListener('mouseenter', show); c.addEventListener('mouseleave', hide);
+    c.addEventListener('focus', show); c.addEventListener('blur', hide);
+    c.addEventListener('touchstart', show, { passive: true });
+    cols.appendChild(c);
+    var xl = document.createElement('span'); xl.textContent = xLabels[i] || ''; xaxis.appendChild(xl);
+  });
+  // Hex Agent started posting live events on 3 Oct 2025 (column index 2)
+  var mk = document.createElement('div'); mk.className = 'marker';
+  mk.style.left = 'calc(' + (2 / months.length * 100) + '% + 1px)';
+  mk.innerHTML = '<b>شروع Hex Agent</b>';
+  plot.appendChild(mk);
+
+  // Automation split (recent 3 months, 1,848 posts)
+  var split = [['lv-full', 8.7], ['lv-high', 50.2], ['lv-mid', 30.7], ['lv-low', 10.4]];
+  var sp = document.getElementById('split');
+  split.forEach(function (s) {
+    var d = document.createElement('div'); d.className = s[0]; d.style.flex = s[1] + ' 1 0';
+    d.textContent = fa(Math.round(s[1])) + '٪';
+    sp.appendChild(d);
+  });
+
+  // Categories, recent 3 months: name, note, per week, share %, median reactions, level, how
+  var LV = { full: ['lv-full', 'خودکار کامل'], high: ['lv-high', 'پیش‌نویس آماده'], mid: ['lv-mid', 'کمک‌یار'], low: ['lv-low', 'دستی'] };
+  var cats = [
+    ['عکس و ویدیو با کپشن کوتاه', 'میم، خبر تصویری کوتاه، بازیکن جدید', 30.2, 21.3, 20, 'mid', 'ترندهای X و ردیت و عکس خبرهای تأییدشده را با کپشن پیشنهادی در بسته‌ی روزانه می‌فرستد؛ انتخاب و شوخی با شما.'],
+    ['مصدومیت، تمرین و ترکیب', 'غیبت در تمرین، زمان بازگشت، ترکیب تیم‌ها', 19.2, 13.5, 13.5, 'high', 'از کنفرانس‌ها، اکانت باشگاه‌ها و وضعیت بازیکن در API فانتزی؛ تأکید روی بازیکن‌های پرمالکیت.'],
+    ['کنفرانس و نقل‌قول', 'حرف مربی‌ها و بازیکن‌ها داخل «»', 17.5, 12.3, 26, 'high', 'ترجمه‌ی دقیق و فقط بخش‌هایی که به فانتزی مربوط است (مصدومیت، روتیشن، پست بازیکن).'],
+    ['نقل‌وانتقالات', 'اورنشتین، رومانو، جیکوبز، Here we go', 15.2, 10.7, 20, 'high', 'پایش خبرنگارها با رده‌بندی اعتبار؛ چند منبعِ یک خبر یکی می‌شوند. «Here we go» رسمی بعداً می‌تواند مستقیم برود.'],
+    ['واکنش لحظه‌ای حین بازی', '«واااای»، «گل چهارم»، شوخی با تیم‌ها', 12.3, 8.7, 17, 'low', 'شخصیت کانال است و دستی می‌ماند. ایجنت فقط لحظه‌های مهم را خبر می‌دهد (مثلاً کارت قرمز یک بازیکن پرمالکیت).'],
+    ['آمار و رکورد', 'آمار بازیکن، مقایسه، رکوردهای تاریخی', 8.6, 6.1, 18, 'high', 'ترجمه‌ی آمارهای اوپتا و ساختن آمار از API فانتزی، همراه با کارت تصویری.'],
+    ['توصیه و تحلیل فانتزی', 'کاپیتان، وایلدکارت، درفت کارشناس‌ها، فیکسچر', 8.6, 6.1, 19, 'mid', 'پیش‌نویس با داده‌ی فیکسچر، xG، مالکیت و قیمت، و ترجمه‌ی درفت کارشناس‌ها؛ نظر نهایی را شما اضافه می‌کنید.'],
+    ['رویداد زنده‌ی دستی', 'Top BPS، Top DEFCON، گل و تعویض', 7.2, 5.1, 9.5, 'full', 'Hex Agent این داده را دارد؛ جدول BPS و DEFCON در دقیقه‌های پایانی خودکار ارسال شود.'],
+    ['تبلیغ ربات و لیگ‌ها', 'امکانات بات، پریمیوم، لیگ‌های هکس', 4.8, 3.4, 15, 'mid', 'قالب‌های آماده و زمان‌بندی (شروع فصل، قبل از ددلاین)؛ متن را شما تأیید می‌کنید.'],
+    ['نظرسنجی و سؤال', 'سؤال از مخاطب، 👍/👎، نظرسنجی تلگرام', 4.5, 3.1, 20, 'high', 'بعد از هر اتفاق مهم یک سؤال یا نظرسنجی پیشنهاد می‌دهد.'],
+    ['داده‌های FPL', 'EO تاپ ۱۰ هزار، بهترین مربی هفته، آمار کاربران هکس', 3.5, 2.4, 17, 'full', 'کاملاً از API فانتزی و داده‌ی ربات خودتان؛ با قالب ثابت خودکار منتشر شود.'],
+    ['نتایج و مرور', 'نتیجه، جدول، براکت، تیم هفته', 3.4, 2.4, 20, 'high', 'از API نتایج و فانتزی؛ متن کوتاه با نکته‌ی فانتزی هر بازی.'],
+    ['خبر عمومی فوتبال', 'پرونده‌ی سیتی، داور بازی، بیانیه‌ها', 3.0, 2.1, 34, 'high', 'همان مسیر خبرهای نقل‌وانتقال، با فیلتر ربط به لیگ برتر.'],
+    ['سایر و تیم شخصی', 'کامنت‌های کوتاه، تیم خودتان، چالش‌ها', 2.5, 1.8, 13, 'low', 'تیم شخصی را ایجنت می‌تواند از API بکشد و قالب‌بندی کند، اما متن با شماست.'],
+    ['ضرایب، قیمت و برنامه‌ی بازی', 'پیش‌بینی بازار شرط‌بندی، تغییر قیمت، برنامه‌ی جام', 1.6, 1.1, 9, 'full', 'از داده‌ی ضرایب، قیمت و برنامه‌ی بازی‌ها؛ قالب ثابت و زمان‌بندی‌شده (مثلاً روز ددلاین).']
+  ];
+  var maxW = 30.2, tb = document.getElementById('cats');
+  cats.forEach(function (c) {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td class="cat"><strong>' + c[0] + '</strong><small>' + c[1] + '</small></td>' +
+      '<td class="n"><div class="bar-cell"><i style="width:' + (c[2] / maxW * 5) + 'rem"></i><span>' + fa(c[2], 1) + '</span></div></td>' +
+      '<td class="n">' + fa(c[3], 1) + '٪</td>' +
+      '<td class="n">' + fa(c[4]) + '</td>' +
+      '<td><span class="chip ' + LV[c[5]][0] + '">' + LV[c[5]][1] + '</span></td>' +
+      '<td class="how">' + c[6] + '</td>';
+    tb.appendChild(tr);
+  });
+})();
+</script>
