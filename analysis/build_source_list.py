@@ -4,7 +4,7 @@
 استفاده:
     python analysis/build_source_list.py <workflow_result.json> <following.csv> <out.csv>
 
-ورودی JSON سه کلید دارد: classified (اکانت‌هایی که الان فالو می‌کنید)،
+ورودی JSON (خروجی workflow، که فالووینگ‌های غیرفوتبالی را هم دارد و در مخزن نمی‌آید) سه کلید دارد: classified (اکانت‌هایی که الان فالو می‌کنید)،
 candidates (اکانت‌های پیشنهادی جدید با نتیجه‌ی راستی‌آزمایی) و gaps.
 خروجی فقط اکانت‌های فوتبالی را نگه می‌دارد؛ اکانت‌های غیرفوتبالی کنار گذاشته می‌شوند.
 """
@@ -13,6 +13,10 @@ import csv, json, sys
 COLUMNS = ['username', 'name', 'origin', 'category', 'club', 'tier', 'priority',
            'use_for', 'verification', 'evidence_url', 'note']
 PRIORITY_ORDER = {'core': 0, 'extended': 1, 'monitor': 2, 'skip': 3}
+# منابعی که حسام در پست‌هایش بارها نقل کرده (جیکوبز ۱۸، کروک ۸، مت لاو ۶ بار)
+CORE_OVERRIDES = {'jacobsben', 'alex_crook', 'matt_law_dt'}
+# حساب‌های شخصی که منبع خبری نیستند
+EXCLUDE = {'__msnp__'}
 
 
 def main(result_path, following_path, out_path):
@@ -21,8 +25,10 @@ def main(result_path, following_path, out_path):
 
     rows = []
     for a in result['classified']:
-        if not a['football_related'] or a['category'] == 'non_football':
+        if not a['football_related'] or a['category'] == 'non_football' or a['username'].lower() in EXCLUDE:
             continue
+        if a['username'].lower() in CORE_OVERRIDES:
+            a['priority'] = 'core'
         rows.append({
             'username': a['username'], 'name': names.get(a['username'].lower(), ''),
             'origin': 'following', 'category': a['category'], 'club': a['club'],
@@ -38,12 +44,12 @@ def main(result_path, following_path, out_path):
         handle = c['username']
         if verdict == 'handle_corrected' and v.get('corrected_username'):
             handle = v['corrected_username'].lstrip('@')
-        # اکانتی که تأیید نشده، فعلاً فقط زیر نظر می‌ماند و پایش اصلی نمی‌شود
-        priority = c['priority'] if verdict in ('confirmed', 'handle_corrected') else 'monitor'
+        # اولویت پیشنهادی حفظ می‌شود؛ ستون verification می‌گوید کدام هندل‌ها
+        # باید قبل از پایش با API خود X چک شوند (unverifiable)
         rows.append({
             'username': handle, 'name': c['name'], 'origin': 'discovered',
             'category': c['category'], 'club': c['club'], 'tier': c['tier'],
-            'priority': priority,
+            'priority': c['priority'],
             'use_for': ' '.join(c['use_for']), 'verification': verdict,
             'evidence_url': v.get('evidence_url') or c.get('evidence_url', ''),
             'note': c['why'] + (f" | {v['note']}" if v.get('note') else ''),
